@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/berunda/chi_crud/internal/app"
+	"github.com/berunda/chi_crud/internal/routes"
 )
 
 func main() {
@@ -19,9 +20,11 @@ func main() {
 		panic(err)
 	}
 
-	http.HandleFunc("/health", app.HealthCheck)
+	r := routes.SetupRoutes(app)
+
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%d", port),
+		Handler:      r,
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
