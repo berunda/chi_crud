@@ -1,0 +1,15 @@
+services:
+  db:
+    container_name: "workoutDB"
+    image: postgres
+    volumes:
+      - db_data:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    restart: unless-stopped
+volumes:
+  db_data:
