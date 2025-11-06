@@ -9,6 +9,7 @@ import (
 
 	"github.com/berunda/chi_crud/internal/api"
 	"github.com/berunda/chi_crud/internal/store"
+	"github.com/berunda/chi_crud/migrations"
 )
 
 type Application struct {
@@ -22,6 +23,12 @@ func NewApplication() (*Application, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	err = store.MigrateFS(pgDB, migrations.FS, ".")
+	if err != nil {
+		panic(err)
+	}
+
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
 	// store
